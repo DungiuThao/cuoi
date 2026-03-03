@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Đặng Trung Dũng & Nguyễn Phương Thảo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Lora',serif;
+  overflow-x:hidden;
+  background:#F0F9FF;
+}
+
+/* ===== HERO SUNSET ===== */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+  background:linear-gradient(
+    180deg,
+    #FFD6A5 0%,
+    #FFB4A2 25%,
+    #FF8FAB 50%,
+    #6EC6F0 80%,
+    #4BB3E8 100%
+  );
+}
+
+.names{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(3rem,10vw,7rem);
+  color:white;
+  cursor:pointer;
+  position:relative;
+  z-index:2;
+}
+
+/* ===== RAINBOW ===== */
+#rainbow{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:40vh;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .6s;
+  background:linear-gradient(
+    90deg,
+    rgba(255,0,0,.15),
+    rgba(255,165,0,.15),
+    rgba(255,255,0,.15),
+    rgba(0,255,0,.15),
+    rgba(0,0,255,.15),
+    rgba(75,0,130,.15),
+    rgba(238,130,238,.15)
+  );
+  mix-blend-mode:screen;
+}
+
+/* ===== CLOVER ===== */
+.clover{
+  position:fixed;
+  top:-40px;
+  pointer-events:none;
+  animation:cloverFall linear infinite;
+  z-index:40;
+}
+
+@keyframes cloverFall{
+  0%{opacity:0;transform:translateY(0) rotate(0deg)}
+  10%{opacity:1}
+  100%{opacity:0;transform:translateY(110vh) rotate(360deg)}
+}
+
+/* ===== SPARKLE ===== */
+.sparkle{
+  position:fixed;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff,#FFD6E8);
+  box-shadow:0 0 10px white;
+  pointer-events:none;
+  animation:sparkleFloat linear infinite;
+  z-index:30;
+}
+
+@keyframes sparkleFloat{
+  0%{transform:translateY(0);opacity:0}
+  10%{opacity:1}
+  100%{transform:translateY(-120vh);opacity:0}
+}
+
+/* ===== HEART BURST ===== */
+.heart-burst{
+  position:absolute;
+  font-size:2rem;
+  animation:heartPop .8s ease forwards;
+  pointer-events:none;
+}
+
+@keyframes heartPop{
+  0%{transform:scale(0);opacity:0}
+  50%{transform:scale(1.4);opacity:1}
+  100%{transform:scale(1.8);opacity:0}
+}
+
+</style>
+</head>
+<body>
+
+<div id="rainbow"></div>
+
+<section class="hero">
+  <h1 class="names">
+    Trung Dũng<br>&<br>Phương Thảo
+  </h1>
+</section>
+
+<script>
+
+/* ===== CLOUD SUNSET ===== */
+function makeCloud(){
+  const cloud=document.createElement("div");
+  cloud.style.position="absolute";
+  cloud.style.top=Math.random()*40+"%";
+  cloud.style.left="-200px";
+  cloud.style.width="200px";
+  cloud.style.height="80px";
+  cloud.style.background="white";
+  cloud.style.borderRadius="50px";
+  cloud.style.filter="drop-shadow(0 5px 10px rgba(255,150,200,.4))";
+  cloud.style.opacity=".9";
+  cloud.style.animation=`cloudMove ${20+Math.random()*20}s linear infinite`;
+  document.querySelector(".hero").appendChild(cloud);
+}
+
+const style=document.createElement("style");
+style.innerHTML=`
+@keyframes cloudMove{
+  from{transform:translateX(0)}
+  to{transform:translateX(120vw)}
+}`;
+document.head.appendChild(style);
+
+for(let i=0;i<6;i++){makeCloud();}
+
+/* ===== CLOVER ===== */
+const cloverSVG=`
+<svg width="22" height="22" viewBox="0 0 24 24">
+<g transform="translate(12,12)">
+<circle cx="0" cy="-4" r="4" fill="#7ED957"/>
+<circle cx="-4" cy="2" r="4" fill="#6BCF50"/>
+<circle cx="4" cy="2" r="4" fill="#7ED957"/>
+<rect x="-1" y="4" width="2" height="6" fill="#4CAF50"/>
+</g></svg>`;
+
+for(let i=0;i<15;i++){
+  const el=document.createElement("div");
+  el.className="clover";
+  el.innerHTML=cloverSVG;
+  el.style.left=Math.random()*100+"vw";
+  el.style.animationDuration=(8+Math.random()*10)+"s";
+  el.style.animationDelay=Math.random()*10+"s";
+  document.body.appendChild(el);
+}
+
+/* scroll slow clover */
+window.addEventListener("scroll",()=>{
+  const scrollPercent=window.scrollY/(document.body.scrollHeight-window.innerHeight);
+  document.querySelectorAll(".clover").forEach(el=>{
+    el.style.animationDuration=scrollPercent>0.6?"18s":"10s";
+  });
+});
+
+/* ===== SPARKLE ===== */
+for(let i=0;i<25;i++){
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=Math.random()*100+"vw";
+  s.style.top=100+Math.random()*50+"vh";
+  s.style.animationDuration=(6+Math.random()*6)+"s";
+  s.style.animationDelay=Math.random()*10+"s";
+  document.body.appendChild(s);
+}
+
+/* ===== RAINBOW SCROLL ===== */
+window.addEventListener("scroll",()=>{
+  document.getElementById("rainbow").style.opacity=
+    window.scrollY>150?"1":"0";
+});
+
+/* ===== HEART CLICK ===== */
+const names=document.querySelector(".names");
+names.addEventListener("click",(e)=>{
+  for(let i=0;i<6;i++){
+    const heart=document.createElement("div");
+    heart.className="heart-burst";
+    heart.innerHTML="💖";
+    heart.style.left=(e.clientX-20+Math.random()*40)+"px";
+    heart.style.top=(e.clientY-20+Math.random()*40)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),800);
+  }
+});
+
+</script>
+
+</body>
+</html>
